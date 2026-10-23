@@ -13,7 +13,7 @@ function Head({ c, children }) {
   return <div className="ch" style={{ background: c }}>{children}</div>
 }
 
-export default function ExtraCard({ m, en }) {
+export default function ExtraCard({ m, en, onOpen }) {
   const multi = m.multi
   const c = m.card
   const o = DB.orders
@@ -25,6 +25,10 @@ export default function ExtraCard({ m, en }) {
         <Row k={en ? 'Oat Milk L-1002' : '燕麦奶 L-1002'} v={en ? '12 ctn · 2 days left' : '12 箱 · 剩 2 天'} color="#B23A28" />
         <Row k={en ? 'Pearl S-3003' : '珍珠 S-3003'} v={en ? '8 bag' : '8 袋'} />
         <div className="fsrc">{t('来源')}：{t('仓储')} WMS　｜　{t('更新')} 07:55　·　T-1 快照，非实时</div>
+      <div className="cf" style={{ borderTop: 'none', padding: '6px 0 0' }}>
+          <button className="pbtn" style={{ fontSize: 11 }} onClick={() => onOpen('stock')}>
+            {en ? 'Open full report ›' : '查看完整日报 ›'}</button>
+        </div>
       </div></div>
   )
 
@@ -38,6 +42,10 @@ export default function ExtraCard({ m, en }) {
             : '口径：用量 ÷ 营业额（万元）。基准：同区域 · 同店型 · 同菜单版本门店自身历史。'}
         </div>
         <div className="fsrc">{t('来源')}：{t('仓储')} WMS · POS · Lakehouse　｜　T-1</div>
+      <div className="cf" style={{ borderTop: 'none', padding: '6px 0 0' }}>
+          <button className="pbtn" style={{ fontSize: 11 }} onClick={() => onOpen('usage')}>
+            {en ? 'Open usage detail ›' : '查看用量明细 ›'}</button>
+        </div>
       </div></div>
   )
 
@@ -49,6 +57,25 @@ export default function ExtraCard({ m, en }) {
         <Row k={en ? 'Safety stock deviation' : '安全库存偏离'} v="-12%" />
         <Row k={en ? 'Dwell days' : '周转天数'} v={en ? '6.2 d' : '6.2 天'} />
         <div className="fsrc">{t('来源')}：{t('仓储')} WMS · POS　｜　{t('更新')} 07:55</div>
+      <div className="cf" style={{ borderTop: 'none', padding: '6px 0 0' }}>
+          <button className="pbtn" style={{ fontSize: 11 }} onClick={() => onOpen('stock')}>
+            {en ? 'Open health detail ›' : '查看健康明细 ›'}</button>
+        </div>
+      </div></div>
+  )
+
+  if (c === 'weekly') return (
+    <div className="fcard"><Head c="#1F4E79">{en ? 'Weekly summary' : '本周执行摘要'}</Head>
+      <div className="cb">
+        <Row k={en ? 'Execution rate' : '门店执行率'} v="79%" />
+        <Row k={en ? 'Order adoption' : '订货建议采纳率'} v="76%" />
+        <Row k={en ? 'Variance closure' : '到货差异闭环率'} v="80%" />
+        <Row k={en ? 'Expiry loss (est.)' : '临期损失（估）'} v="¥ 2,140" color="#B23A28" />
+        <div className="fsrc">{t('来源')}：{en ? 'Platform event stream' : '平台事件流'}　｜　{en ? 'Week 43' : '第 43 周'}</div>
+        <div className="cf" style={{ borderTop: 'none', padding: '6px 0 0' }}>
+          <button className="pbtn" style={{ fontSize: 11 }} onClick={() => onOpen('weekly')}>
+            {en ? 'Open full weekly ›' : '查看完整周报 ›'}</button>
+        </div>
       </div></div>
   )
 

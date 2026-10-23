@@ -10,6 +10,7 @@ export const SCEN_GROUPS = [
       { id: 's-expiry', label: ['临期预警 + 处置','Expiry + action'], msgs: [{ kind: 'card', card: 'expiry' }] },
       { id: 's-stock', label: ['库存快照问询','Stock snapshot'], msgs: [{ kind: 'user', text: '我还有多少鲜奶和燕麦奶' }, { kind: 'card', card: 'stock' }] },
       { id: 's-usage', label: ['万元用量（异常）','Usage per ¥10k'], msgs: [{ kind: 'user', text: '我这周燕麦奶用量正常吗' }, { kind: 'card', card: 'usage' }] },
+      { id: 's-weekly', label: ['本周执行摘要','Weekly summary'], msgs: [{ kind: 'card', card: 'weekly' }] },
       { id: 's-health', label: ['库存健康档位','Inventory health'], msgs: [{ kind: 'user', text: '我店库存健康吗' }, { kind: 'card', card: 'health' }] },
     ],
   },

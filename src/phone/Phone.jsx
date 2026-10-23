@@ -14,7 +14,7 @@ function useStore() {
 const CH_COLOR = { daily: '#1F4E79', order: '#1F4E79', arrive: '#4A5B70', diff: '#B23A28', expiry: '#96742A' }
 const CH_TITLE = { daily: '早间健康日报', order: '订货建议 · 每周', arrive: '到货提醒 · 仓已发货', diff: '验收异常 · 差异上报', expiry: '临期预警 · T-2' }
 
-function SupplyCard({ m, s, en }) {
+function SupplyCard({ m, s, en, onOpen }) {
   const c = m.card
   const rule = s.rules.find(r => r.id === 'R-001')
   const ruleOn = rule && rule.state === '已生效'
@@ -32,7 +32,7 @@ function SupplyCard({ m, s, en }) {
           {kv(t('鲜奶 · 在途'), en ? '40 min delayed' : '延迟 40 分钟')}
           <div className="fsrc">{t('来源')}：{t('仓储')} WMS · POS　｜　{t('更新')} 08:00</div>
           <div className="cf" style={{ borderTop: 'none', padding: '6px 0 0' }}>
-            <button className="pbtn" style={{ fontSize: 11 }} onClick={() => setPage('daily')}>
+            <button className="pbtn" style={{ fontSize: 11 }} onClick={() => onOpen('daily')}>
               {en ? 'Open full report ›' : '查看完整日报 ›'}</button>
           </div>
         </>}
@@ -162,8 +162,8 @@ export default function Phone() {
                 if (m.kind === 'card') {
                   const base = ['daily', 'order', 'arrive', 'diff', 'expiry']
                   return base.includes(m.card)
-                    ? <SupplyCard key={i} m={m} s={s} en={en} />
-                    : <div className="msg" key={i}><div className="mav">{en ? 'A' : '助'}</div><div><ExtraCard m={m} en={en} /></div></div>
+                    ? <SupplyCard key={i} m={m} s={s} en={en} onOpen={setPage} />
+                    : <div className="msg" key={i}><div className="mav">{en ? 'A' : '助'}</div><div><ExtraCard m={m} en={en} onOpen={setPage} /></div></div>
                 }
                 return null
               })}
