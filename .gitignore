@@ -1,0 +1,7 @@
+node_modules/
+dist/
+dist.tar.gz
+shots/
+*.log
+.DS_Store
+__pycache__/

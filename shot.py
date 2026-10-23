@@ -1,0 +1,33 @@
+import pathlib
+from playwright.sync_api import sync_playwright
+base='http://127.0.0.1:3031/'
+pathlib.Path('shots').mkdir(exist_ok=True)
+errs=[]
+with sync_playwright() as pw:
+    b=pw.chromium.launch(channel="chrome")
+    ctx=b.new_context(viewport={"width":1680,"height":1000}, device_scale_factor=2)
+    p=ctx.new_page()
+    p.on("console", lambda m: errs.append(m.text) if m.type=="error" else None)
+    p.on("pageerror", lambda e: errs.append("PAGEERROR "+str(e)))
+    p.goto(base, wait_until="networkidle"); p.wait_for_timeout(1500)
+    p.screenshot(path="shots/w-workbench.png")
+    p.click("text=事件与处置"); p.wait_for_timeout(900)
+    p.screenshot(path="shots/w-events.png")
+    p.click("table tbody tr:nth-child(2)"); p.wait_for_timeout(700)
+    p.screenshot(path="shots/w-event-drawer.png")
+    p.keyboard.press("Escape"); p.wait_for_timeout(400)
+    p.click("text=规则中心"); p.wait_for_timeout(800)
+    p.screenshot(path="shots/w-rules.png")
+    p.click("button:has-text('详情')"); p.wait_for_timeout(700)
+    p.screenshot(path="shots/w-rule-detail.png")
+    p.keyboard.press("Escape"); p.wait_for_timeout(400)
+    p.click("text=组织与通知路由"); p.wait_for_timeout(800)
+    p.screenshot(path="shots/w-routing.png")
+    p.click("button:has-text('手工调整')"); p.wait_for_timeout(500)
+    p.screenshot(path="shots/w-routing-edit.png")
+    p.click("text=数据源接入"); p.wait_for_timeout(700)
+    p.screenshot(path="shots/w-sources.png")
+    p.click("text=审计日志"); p.wait_for_timeout(700)
+    p.screenshot(path="shots/w-audit.png")
+    b.close()
+print("errors:", errs[:6] if errs else "none")
