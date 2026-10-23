@@ -16,11 +16,11 @@ export function FlywheelOverview() {
   return (
     <>
       <Row gutter={16} style={{ marginBottom: 16 }}>
-        <Col span={6}><Card size="small"><Statistic title={en ? 'Hit rate today' : '今日命中率'}
+        <Col xs={12} md={6}><Card size="small"><Statistic title={en ? 'Hit rate today' : '今日命中率'}
           value={Math.round(last.hit * 100)} suffix="%" valueStyle={{ color: '#22d3ee' }} /></Card></Col>
-        <Col span={6}><Card size="small"><Statistic title={en ? '7-day change' : '7 天变化'} value={`+${up}`} suffix="pp" /></Card></Col>
-        <Col span={6}><Card size="small"><Statistic title={en ? 'Open gaps' : '待补缺口'} value={last.gap} /></Card></Col>
-        <Col span={6}><Card size="small"><Statistic title={en ? 'Fixed today' : '今日补齐'} value={last.fixed} /></Card></Col>
+        <Col xs={12} md={6}><Card size="small"><Statistic title={en ? '7-day change' : '7 天变化'} value={`+${up}`} suffix="pp" /></Card></Col>
+        <Col xs={12} md={6}><Card size="small"><Statistic title={en ? 'Open gaps' : '待补缺口'} value={last.gap} /></Card></Col>
+        <Col xs={12} md={6}><Card size="small"><Statistic title={en ? 'Fixed today' : '今日补齐'} value={last.fixed} /></Card></Col>
       </Row>
 
       <Card size="small" title={en ? 'The loop' : '飞轮四段'} style={{ marginBottom: 16 }}>

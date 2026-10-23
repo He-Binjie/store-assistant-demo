@@ -30,14 +30,14 @@ export function OutreachCenter() {
   return (
     <>
       <Row gutter={16} style={{ marginBottom: 16 }}>
-        <Col span={6}><Card size="small"><Statistic title={en ? 'Sent today' : '今日触达'} value={b.today.sent} suffix={en ? '' : '条'} /></Card></Col>
-        <Col span={6}><Card size="small"><Statistic title={en ? 'Delivered' : '送达'} value={b.today.delivered} suffix={`/ ${b.today.sent}`} /></Card></Col>
-        <Col span={6}><Card size="small"><Statistic title={en ? 'Read' : '阅读'} value={b.today.read} suffix={`(${Math.round(b.today.read / b.today.sent * 100)}%)`} /></Card></Col>
-        <Col span={6}><Card size="small"><Statistic title={en ? 'Failed' : '失败'} value={b.today.dv} valueStyle={{ color: '#cf1322' }} /></Card></Col>
+        <Col xs={12} md={6}><Card size="small"><Statistic title={en ? 'Sent today' : '今日触达'} value={b.today.sent} suffix={en ? '' : '条'} /></Card></Col>
+        <Col xs={12} md={6}><Card size="small"><Statistic title={en ? 'Delivered' : '送达'} value={b.today.delivered} suffix={`/ ${b.today.sent}`} /></Card></Col>
+        <Col xs={12} md={6}><Card size="small"><Statistic title={en ? 'Read' : '阅读'} value={b.today.read} suffix={`(${Math.round(b.today.read / b.today.sent * 100)}%)`} /></Card></Col>
+        <Col xs={12} md={6}><Card size="small"><Statistic title={en ? 'Failed' : '失败'} value={b.today.dv} valueStyle={{ color: '#cf1322' }} /></Card></Col>
       </Row>
 
       <Row gutter={16}>
-        <Col span={8}>
+        <Col xs={24} xl={24} xxl={8}>
           <Card size="small" title={<Space><SendOutlined />{en ? 'What to push' : '推什么'}</Space>}
             style={{ height: '100%' }}
             extra={<Button size="small" type="link" onClick={() => message.success(en ? 'Draft created' : '已创建内容草稿')}>{en ? 'New' : '新建'}</Button>}>
@@ -53,7 +53,7 @@ export function OutreachCenter() {
           </Card>
         </Col>
 
-        <Col span={8}>
+        <Col xs={24} xl={24} xxl={8}>
           <Card size="small" title={<Space><ThunderboltOutlined />{en ? 'When & how' : '怎么推'}</Space>} style={{ height: '100%' }}
             extra={<Button size="small" type="link" onClick={() => message.info(en ? 'Schedule editor' : '调度编辑（演示）')}>{en ? 'Schedule' : '调度'}</Button>}>
             <Text type="secondary" style={{ fontSize: 12 }}>
@@ -63,7 +63,7 @@ export function OutreachCenter() {
           </Card>
         </Col>
 
-        <Col span={8}>
+        <Col xs={24} xl={24} xxl={8}>
           <Card size="small" title={<Space><PartitionOutlined />{en ? 'Who gets it' : '推给谁'}</Space>} style={{ height: '100%' }}
             extra={<Button size="small" type="link" onClick={() => message.success(en ? 'Routing updated' : '已更新路由')}>{en ? 'Edit' : '编辑'}</Button>}>
             <Text type="secondary" style={{ fontSize: 12 }}>

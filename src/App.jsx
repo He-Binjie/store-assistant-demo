@@ -132,14 +132,14 @@ export default function App() {
     localStorage.setItem('ssd_theme_v2', mode)
   }, [mode])
   const [collapsed, setCollapsed] = useState(false)
-  const [aiOpen, setAiOpen] = useState(true)
+  const [aiOpen, setAiOpen] = useState(() => (typeof window !== 'undefined' ? window.innerWidth >= 1560 : true))
   const [preview, setPreview] = useState(true)
   const [scenOpen, setScenOpen] = useState(true)
   const [key, setKey] = useState('/supply/workbench')
   const [Page, crumb] = PAGES[key] || PAGES['/supply/workbench']
 
   useEffect(() => {
-    document.documentElement.style.setProperty('--pv-offset', preview ? '470px' : '0px')
+    document.documentElement.style.setProperty('--pv-offset', preview ? '430px' : '0px')
   }, [preview])
 
   const leftOffset = (collapsed ? 80 : 208) + (aiOpen ? 312 : 0)
@@ -226,7 +226,7 @@ export default function App() {
           <div className="preview-head">
             <MobileOutlined style={{ color: '#1677ff' }} />
             <Text strong style={{ fontSize: 13 }}>{t('门店端预览')}</Text>
-            <Text type="secondary" style={{ fontSize: 11.5 }}>{t('预览门店')}：{t('星汇里店')}（SH2014）</Text>
+            <Text type="secondary" style={{ fontSize: 11 }} ellipsis>{t('星汇里店')} · SH2014</Text>
             <div style={{ flex: 1 }} />
             <Button size="small" type="text" onClick={() => setScenOpen(!scenOpen)}>
               {scenOpen ? (lang === 'en' ? 'Hide scenarios' : '收起场景') : (lang === 'en' ? 'Scenarios' : '演示场景')}

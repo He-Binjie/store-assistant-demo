@@ -24,14 +24,14 @@ export function InsightsPage() {
   return (
     <>
       <Row gutter={16} style={{ marginBottom: 16 }}>
-        <Col span={15}>
+        <Col xs={24} xl={24} xxl={15}>
           <Card size="small" title={<Space><BulbOutlined />{en ? 'Knowledge gaps from real questions' : '知识缺口 · 来自真实提问'}</Space>}
             extra={<Text type="secondary" style={{ fontSize: 12 }}>{en ? 'export to actions, not to a report' : '出口是配置动作，不是报表'}</Text>}>
             <Table size="small" rowKey="id" columns={gapCols} dataSource={DB.gaps.filter(g => g.status === '待补知识').slice(0, 6)}
               pagination={false} />
           </Card>
         </Col>
-        <Col span={9}>
+        <Col xs={24} xl={24} xxl={9}>
           <Card size="small" title={<Space><FireOutlined />{en ? 'Store pain points' : '门店痛点标签'}</Space>} style={{ height: '100%' }}>
             <Text type="secondary" style={{ fontSize: 12 }}>
               {en ? 'Clustered from questions and escalation reasons.' : '由提问与转人工原因聚类，用于决定下一轮推什么。'}</Text>

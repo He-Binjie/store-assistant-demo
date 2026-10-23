@@ -40,13 +40,13 @@ export default function Routing() {
 
   return (
     <Row gutter={16}>
-      <Col span={9}>
+      <Col xs={24} xl={24} xxl={9}>
         <Card size="small" title={t('组织与数据范围')}
           extra={<Text type="secondary" style={{ fontSize: 12 }}>按角色裁剪</Text>}>
           <Tree treeData={treeData()} defaultExpandAll selectable={false} style={{ fontSize: 12.5 }} />
         </Card>
       </Col>
-      <Col span={15}>
+      <Col xs={24} xl={24} xxl={15}>
         <Card size="small" title={t('通知路由')} style={{ marginBottom: 16 }}
           extra={<Space>
             <Text type="secondary" style={{ fontSize: 12 }}>决定「事件推给谁、超时找谁兜底」</Text>

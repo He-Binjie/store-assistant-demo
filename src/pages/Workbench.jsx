@@ -10,7 +10,7 @@ const { Text } = Typography
 
 function Kpi({ title, value, suffix, target, ok, sub, tag }) {
   return (
-    <Card size="small" styles={{ body: { padding: '14px 16px' } }}>
+    <Card size="small" styles={{ body: { padding: '12px 14px' } }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 2 }}>
         <Text type="secondary" style={{ fontSize: 12, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{title}</Text>
         {tag && <Tag color={tag === '货' ? 'blue' : 'cyan'} style={{ marginInlineEnd: 0, fontSize: 11 }}>{t(tag === '货' ? '货的切面' : '人的切面')}</Tag>}
@@ -57,13 +57,13 @@ export default function Workbench() {
   return (
     <>
       <Row gutter={16} style={{ marginBottom: 16 }}>
-        <Col span={6}><Kpi title={t('临期处置率')} value={m.expRate} suffix="%" target="85%" ok={m.expRate >= 85}
+        <Col xs={24} sm={12} xl={12} xxl={6}><Kpi title={t('临期处置率')} value={m.expRate} suffix="%" target="85%" ok={m.expRate >= 85}
           sub={`${t('已登记')} ${m.expDone} / ${t('命中')} ${m.expTotal}`} tag="货" /></Col>
-        <Col span={6}><Kpi title={t('到货差异闭环率')} value={m.difRate} suffix="%" target="85%" ok={m.difRate >= 85}
+        <Col xs={24} sm={12} xl={12} xxl={6}><Kpi title={t('到货差异闭环率')} value={m.difRate} suffix="%" target="85%" ok={m.difRate >= 85}
           sub={`${t('已闭环')} ${m.difClosed} / ${t('上报')} ${m.difTotal}`} tag="货" /></Col>
-        <Col span={6}><Kpi title={t('预警平均响应')} value={m.resp} suffix="h" target="≤4h" ok={m.resp <= 4}
+        <Col xs={24} sm={12} xl={12} xxl={6}><Kpi title={t('预警平均响应')} value={m.resp} suffix="h" target="≤4h" ok={m.resp <= 4}
           sub={t('按首次动作时间计')} tag="人" /></Col>
-        <Col span={6}><Kpi title={t('督导跟进率')} value={m.followRate} suffix="%" target="80%" ok={m.followRate >= 80}
+        <Col xs={24} sm={12} xl={12} xxl={6}><Kpi title={t('督导跟进率')} value={m.followRate} suffix="%" target="80%" ok={m.followRate >= 80}
           sub={`${t('已闭环')} ${m.followDone} / ${t('升级')} ${m.followTotal}`} tag="人" /></Col>
       </Row>
 
@@ -78,13 +78,13 @@ export default function Workbench() {
       </Card>
 
       <Row gutter={16}>
-        <Col span={14}>
+        <Col xs={24} xl={24} xxl={14}>
           <Card size="small" title={t('最近操作')} extra={<Text type="secondary" style={{ fontSize: 12 }}>审计留痕，可追溯到人</Text>}>
             <Table size="small" rowKey="id" columns={auditCols} dataSource={s.audit.slice(0, 7)}
               pagination={false} />
           </Card>
         </Col>
-        <Col span={10}>
+        <Col xs={24} xl={24} xxl={10}>
           <Card size="small" title={t('口径与边界')}>
             <Alert
               type="info" showIcon
