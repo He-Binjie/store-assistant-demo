@@ -135,9 +135,10 @@ export default function Phone() {
         <div className="phone">
           <div className="notch" />
           <div className="pscreen">
-            <div className="statusbar">
+            <div className="statusbar" style={page ? { background: '#0B1220', color: '#E6EDF5',
+              borderBottom: '1px solid rgba(120,160,190,.16)' } : undefined}>
               <span>{today(s.clockH).slice(11)}</span>
-              <span className="ic">●●●　WiFi　86%</span>
+              <span className="ic" style={page ? { color: '#E6EDF5', opacity: .8 } : undefined}>●●●　WiFi　86%</span>
             </div>
             {!page && <div className="imtop">
               <span className="bk">‹</span>
@@ -148,7 +149,7 @@ export default function Phone() {
               </div>
               <span style={{ marginLeft: 'auto', color: '#9AA0A7', fontSize: 15 }}>···</span>
             </div>}
-            {page ? <PhonePage type={page} en={en} onBack={() => setPage(null)} /> : <>
+            {page ? <PhonePage type={page} en={en} onBack={() => setPage(null)} onSwitch={(k) => setPage(k)} /> : <>
             <div className="feed" ref={feedRef}>
               <div className="sysm">{today(s.clockH).slice(0, 10)}</div>
               {s.phone.msgs.map((m, i) => {

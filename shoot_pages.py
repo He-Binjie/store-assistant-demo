@@ -10,10 +10,10 @@ with sync_playwright() as pw:
     p.goto('http://127.0.0.1:3031/', wait_until="networkidle"); p.wait_for_timeout(1700)
     for scen, link, name in cases:
         p.click(f".scen-btn:has-text('{scen}')"); p.wait_for_timeout(450)
-        p.locator(f".pbtn:has-text('{link}')").first.click(); p.wait_for_timeout(700)
+        p.locator(f"button:has-text('{link}')").first.click() if p.locator(f"button:has-text('{link}')").count() else p.locator(f".pbtn:has-text('{link}')").first.click(); p.wait_for_timeout(700)
         # 只截手机区域
         el = p.locator(".phone")
         el.screenshot(path=f"shots/pg-{name}.png")
-        p.locator(".pbtn:has-text('返回')").first.click(); p.wait_for_timeout(350)
+        p.locator("button:has-text('返回')").first.click(); p.wait_for_timeout(350)
     print("errors:", errs[:4] if errs else "none")
     b.close()
