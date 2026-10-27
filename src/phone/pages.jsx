@@ -151,6 +151,96 @@ const Note = ({ en, txt }) => (
   </div>
 )
 
+
+/* ============ 我 vs 区域 对比 ============ */
+function Compare({ rows, en }) {
+  return (
+    <>
+      {rows.map(r => (
+        <div key={r.k} style={{ padding: '6px 0', borderBottom: `1px dashed ${D.line}` }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11.5 }}>
+            <span style={{ color: D.ink }}>{t(r.k)}</span>
+            <span style={{ ...num, color: r.better ? D.green : D.red }}>
+              {r.mine}{r.u}<span style={{ color: D.dim, fontSize: 10 }}>　区域 {r.avg}{r.u}</span>
+            </span>
+          </div>
+          <div style={{ position: 'relative', height: 6, background: 'rgba(255,255,255,.07)', borderRadius: 3, marginTop: 4 }}>
+            <div style={{ width: `${Math.min(100, r.mine / r.max * 100)}%`, height: '100%', borderRadius: 3,
+              background: r.better ? D.cyan : D.red }} />
+            <div style={{ position: 'absolute', top: -2, bottom: -2, left: `${r.avg / r.max * 100}%`,
+              width: 2, background: D.amber, opacity: .85 }} />
+          </div>
+        </div>
+      ))}
+      <div style={{ fontSize: 9.5, color: D.dim, marginTop: 7 }}>
+        {en ? 'Bar = my store · amber line = regional average' : '实心=本店 · 黄线=区域均值'}
+      </div>
+    </>
+  )
+}
+
+/* ============ PDCA 四段 ============ */
+function Pdc({ items, en }) {
+  return (
+    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
+      {items.map(it => (
+        <div key={it.k} style={{ background: 'rgba(255,255,255,.03)', border: `1px solid ${D.line}`,
+          borderRadius: 9, padding: '9px 10px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 5, marginBottom: 5 }}>
+            <span style={{ width: 16, height: 16, borderRadius: 5, fontSize: 9.5, display: 'flex',
+              alignItems: 'center', justifyContent: 'center', background: `${it.c}22`, color: it.c }}>{it.k[0]}</span>
+            <span style={{ fontSize: 11, color: it.c, fontWeight: 600 }}>{t(it.k)}</span>
+          </div>
+          <div style={{ fontSize: 11, color: '#B9C6D4', lineHeight: 1.7 }}>{it.v}</div>
+        </div>
+      ))}
+    </div>
+  )
+}
+
+/* ============ 门店原话 ============ */
+function Voices({ items, en }) {
+  return (
+    <>
+      {items.map((v, i) => (
+        <div key={i} style={{ display: 'flex', gap: 8, padding: '7px 0', borderBottom: i < items.length - 1 ? `1px dashed ${D.line}` : 'none' }}>
+          <span style={{ color: D.cyan, fontSize: 12, lineHeight: 1.4 }}>“</span>
+          <div style={{ flex: 1 }}>
+            <div style={{ fontSize: 11.5, color: '#C9D6E3', lineHeight: 1.65 }}>{v.q}</div>
+            <div style={{ fontSize: 9.5, color: D.dim, marginTop: 3 }}>{v.who} · {v.at}</div>
+          </div>
+        </div>
+      ))}
+    </>
+  )
+}
+
+/* ============ 今日在途物流（仓配/直配） ============ */
+function Transit({ en }) {
+  const rows = [
+    { n: en ? 'Fresh Milk · ORD…317' : '鲜奶 · ORD…317', type: en ? 'Warehouse' : '仓配', who: '王师傅 138****5678', eta: '14:00', c: D.cyan },
+    { n: en ? 'Pearl · DN…009' : '珍珠 · DN…009', type: en ? 'Direct' : '直配', who: 'SF 快递 SF1390****', eta: en ? 'tomorrow' : '明日', c: D.violet },
+  ]
+  return (
+    <>
+      {rows.map(r => (
+        <div key={r.n} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '7px 0', borderBottom: `1px dashed ${D.line}` }}>
+          <span style={{ fontSize: 9.5, color: r.c, border: `1px solid ${r.c}55`, borderRadius: 4, padding: '1px 5px' }}>{r.type}</span>
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <div style={{ fontSize: 11.5, color: D.ink, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{r.n}</div>
+            <div style={{ fontSize: 10, color: D.mut }}>{r.who}</div>
+          </div>
+          <span style={{ fontSize: 11, color: D.ink, ...num }}>{r.eta}</span>
+        </div>
+      ))}
+      <div style={{ fontSize: 9.5, color: D.dim, marginTop: 7 }}>
+        {en ? 'Warehouse delivery shows driver phone; direct delivery shows courier tracking no.'
+          : '仓配展示司机电话，直配展示快递单号（含 Gelato 特殊物料）'}
+      </div>
+    </>
+  )
+}
+
 /* ================= 概览（日报） ================= */
 function Daily({ en }) {
   return (
@@ -188,6 +278,20 @@ function Daily({ en }) {
       </div>
 
       <div style={card}>
+        <div style={h4}>{en ? 'Me vs region' : '本店 vs 区域'}<span style={{ ...lbl, marginLeft: 'auto' }}>{en ? 'today' : '今日'}</span></div>
+        <Compare en={en} rows={[
+          { k: '临期处置率', mine: 69, avg: 78, u: '%', max: 100, better: false },
+          { k: '到货差异闭环率', mine: 80, avg: 74, u: '%', max: 100, better: true },
+          { k: '预警平均响应', mine: 3.4, avg: 4.1, u: 'h', max: 8, better: true },
+        ]} />
+      </div>
+
+      <div style={card}>
+        <div style={h4}>{en ? 'In transit today' : '今日在途'}<span style={{ ...lbl, marginLeft: 'auto' }}>{en ? '2 orders' : '2 单'}</span></div>
+        <Transit en={en} />
+      </div>
+
+      <div style={card}>
         <div style={h4}>{en ? 'What drives today’s issues' : '今日异常归因'}</div>
         <Attribution segs={[{ k: '临期', v: 42, c: D.red }, { k: '到货差异', v: 28, c: D.amber },
           { k: '断货', v: 18, c: D.cyan }, { k: '其他', v: 12, c: '#64748B' }]} />
@@ -202,6 +306,16 @@ function Daily({ en }) {
         <SkuRow icon="⚠️" name={en ? 'Coconut Milk · 58%' : '厚椰乳 · 库存 58%'} meta={en ? 'below safety · 3.4h' : '低于安全库存 · 停留 3.4h'}
           right={en ? '3.4h' : '3.4h'} action actionLabel={en ? 'Order' : '加单'} />
         <Note en={en} txt={en ? 'excludes revenue / GMV' : '不含营业额与毛利'} />
+      </div>
+
+      <div style={card}>
+        <div style={h4}>{en ? 'PDCA · today' : 'PDCA · 今日'}</div>
+        <Pdc en={en} items={[
+          { k: 'Plan', c: D.cyan, v: en ? '2 items planned, 1 high priority' : '今日计划 2 项，高优 1 项' },
+          { k: 'Do', c: D.green, v: en ? '5 done, avg 1.2h each' : '已完成 5 项，平均 1.2h' },
+          { k: 'Check', c: D.amber, v: en ? 'expiry rate 10pp below region' : '临期处置率低于区域 10pp' },
+          { k: 'Act', c: D.violet, v: en ? 'log action before 12:00 tomorrow' : '明日 12:00 前补登记处置' },
+        ]} />
       </div>
     </>
   )
@@ -257,6 +371,38 @@ function Weekly({ en }) {
       </div>
 
       <div style={card}>
+        <div style={h4}>{en ? 'My position in region' : '本店在区域的位置'}
+          <span style={{ ...lbl, marginLeft: 'auto' }}>{en ? '3rd of 12 · ▲1' : '第 3 / 12 名 · ↑1'}</span></div>
+        <Compare en={en} rows={[
+          { k: '执行率', mine: 86, avg: 72, u: '%', max: 100, better: true },
+          { k: '订货采纳率', mine: 81, avg: 76, u: '%', max: 100, better: true },
+          { k: '临期损失', mine: 180, avg: 178, u: ' 元', max: 400, better: false },
+        ]} />
+      </div>
+
+      <div style={card}>
+        <div style={h4}>{en ? 'What the store is saying' : '门店原话'}<span style={{ ...lbl, marginLeft: 'auto' }}>{en ? 'this week' : '本周'}</span></div>
+        <Voices en={en} items={[
+          { q: en ? 'Order suggestions are always higher than what we can sell.' : '订货建议总是比我们卖得动的多，改小了又怕断货。', who: en ? 'Manager · Lin Xiao' : '店长 · 林晓', at: '10-21' },
+          { q: en ? 'Who do I call when the driver says the goods are short?' : '司机说少件，我到底找谁确认，仓里还是督导？', who: en ? 'Manager · Lin Xiao' : '店长 · 林晓', at: '10-20' },
+          { q: en ? 'Expiry alert came at 8am, but my shift starts at 10.' : '临期提醒 8 点就推了，我 10 点才上班。', who: en ? 'Manager · Lin Xiao' : '店长 · 林晓', at: '10-19' },
+        ]} />
+        <div style={{ fontSize: 9.5, color: D.dim, marginTop: 7 }}>
+          {en ? 'Collected from conversations; feeds the admin Insights board.' : '来自会话原话，汇总后进入后台「洞察」页。'}
+        </div>
+      </div>
+
+      <div style={card}>
+        <div style={h4}>{en ? 'PDCA · this week' : 'PDCA · 本周'}</div>
+        <Pdc en={en} items={[
+          { k: 'Plan', c: D.cyan, v: en ? 'raise order adoption to 80%' : '目标：订货采纳率提到 80%' },
+          { k: 'Do', c: D.green, v: en ? '14 actions logged, 3 unclosed' : '完成 14 个动作，3 个未闭环' },
+          { k: 'Check', c: D.amber, v: en ? 'expiry loss +¥120 vs last week' : '临期损失较上周 +120 元' },
+          { k: 'Act', c: D.violet, v: en ? 'cut oat milk order 10% next week' : '下周燕麦奶订货下调 10%' },
+        ]} />
+      </div>
+
+      <div style={card}>
         <div style={h4}>{en ? 'Three things this week' : '本周三件事'}</div>
         <div style={{ fontSize: 11.5, lineHeight: 1.95, color: '#B9C6D4' }}>
           ① {en ? 'Expiry losses concentrate on oat milk (58%).' : '临期损失集中在燕麦奶，占 58%。'}
@@ -301,6 +447,25 @@ function Stock({ en }) {
         <SkuRow icon="🍵" name={en ? 'Jasmine tea base' : '茉莉茶底'} meta={en ? '12 days · 24 pack' : '剩余 12 天 · 库存 24 包'}
           right="¥320" action actionLabel={en ? 'Promote' : '促销消化'} tone={D.amber} />
         <SkuRow icon="🧋" name={en ? 'Pearl' : '珍珠'} meta={en ? '19 days · 8 bag' : '剩余 19 天 · 库存 8 袋'} right="¥96" />
+      </div>
+
+      <div style={card}>
+        <div style={h4}>{en ? 'Me vs region' : '本店 vs 区域'}<span style={{ ...lbl, marginLeft: 'auto' }}>{en ? 'inventory' : '库存'}</span></div>
+        <Compare en={en} rows={[
+          { k: '临期占比', mine: 8.4, avg: 5.1, u: '%', max: 20, better: false },
+          { k: '周转天数', mine: 26, avg: 21, u: ' d', max: 45, better: false },
+          { k: '盘点准确率', mine: 96, avg: 97, u: '%', max: 100, better: false },
+        ]} />
+      </div>
+
+      <div style={card}>
+        <div style={h4}>{en ? 'Expiry PDCA' : '效期处置 PDCA'}<span style={{ ...lbl, marginLeft: 'auto' }}>{en ? 'last 2 weeks' : '近两周'}</span></div>
+        <Pdc en={en} items={[
+          { k: 'Plan', c: D.cyan, v: en ? '12 batches to clear in 14 days' : '计划处置 12 个临期批次' },
+          { k: 'Do', c: D.green, v: en ? '9 done (transfer 5 / promote 3 / write-off 1)' : '已处置 9 个（调拨 5 / 促销 3 / 报损 1）' },
+          { k: 'Check', c: D.amber, v: en ? '3 remain, all within 7 days' : '剩 3 个未处置，均在 7 天内到期' },
+          { k: 'Act', c: D.violet, v: en ? 'transfer 2 to nearby store today' : '今日调拨 2 个到邻店' },
+        ]} />
       </div>
 
       <div style={card}>
@@ -359,6 +524,25 @@ function Usage({ en }) {
           {en ? 'Check recipe version first, then waste log, then gifts inclusion.'
             : '排查顺序：先核配方版本 → 再查损耗登记 → 最后确认赠送是否计入。'}
         </div>
+      </div>
+
+      <div style={card}>
+        <div style={h4}>{en ? 'Me vs same store type' : '本店 vs 同店型'}<span style={{ ...lbl, marginLeft: 'auto' }}>{en ? 'per ¥10k' : '每万元'}</span></div>
+        <Compare en={en} rows={[
+          { k: '燕麦奶', mine: 1.23, avg: 1.05, u: '', max: 1.4, better: false },
+          { k: '鲜奶', mine: 1.02, avg: 1.01, u: '', max: 1.4, better: true },
+          { k: '珍珠', mine: 0.91, avg: 0.96, u: '', max: 1.4, better: true },
+        ]} />
+      </div>
+
+      <div style={card}>
+        <div style={h4}>{en ? 'PDCA · usage' : '用量 PDCA'}</div>
+        <Pdc en={en} items={[
+          { k: 'Plan', c: D.cyan, v: en ? 'verify recipe version first' : '先核对配方与菜单版本' },
+          { k: 'Do', c: D.green, v: en ? 'log daily waste for 3 days' : '连续 3 天登记损耗' },
+          { k: 'Check', c: D.amber, v: en ? 'compare usage after logging' : '登记后复盘用量是否回落' },
+          { k: 'Act', c: D.violet, v: en ? 'if still high, cut order 10%' : '若仍偏高，订货下调 10%' },
+        ]} />
       </div>
 
       <div style={card}>
